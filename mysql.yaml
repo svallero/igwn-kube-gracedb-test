@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: gracedb-test
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: mysql
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: gracedb-test
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:                                                       
+    metadata:                                                     
+      labels:                                                     
+        app: mysql                                                
+    spec:                                                         
+      containers:                                                 
+      - image: mariadb:10.5.1                                     
+        name: mysql                                               
+        env:                                                      
+        - name: MYSQL_ROOT_PASSWORD                               
+          valueFrom:
+            secretKeyRef:
+              name: gracedb-test-secrets
+              key: db-root-password
+        - name: MYSQL_USER                                        
+          value: gracedb                                          
+        - name: MYSQL_PASSWORD                                    
+          valueFrom:
+            secretKeyRef:
+              name: gracedb-test-secrets
+              key: db-password
+        - name: MYSQL_DATABASE                                    
+          value: gracedb                                          
+        ports:                    
+        - containerPort: 3306                                     
+          name: mysql                                             
+        volumeMounts:                                             
+        - name: mysql-persistent-storage                          
+          mountPath: /var/lib/mysql                               
+      volumes:                                                    
+      - name: mysql-persistent-storage                            
+        persistentVolumeClaim:                                    
+          claimName: gracedb-test-mysql-pvc     

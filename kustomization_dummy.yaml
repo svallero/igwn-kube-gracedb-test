@@ -1,0 +1,10 @@
+# Insert your secrets here 
+# and rename the file to kustomization.yaml
+secretGenerator:
+- name: gracedb-test-secrets
+  namespace: gracedb-test
+  literals:
+  - db-password=MyPu123
+  - db-root-password=MyPr123
+generatorOptions:
+  disableNameSuffixHash: true
