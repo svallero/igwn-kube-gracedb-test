@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gracedb-test-pv
+  namespace: gracedb-test
+spec:
+  storageClassName: "cinder"
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data"
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cinder-gracedb-test
+  namespace: gracedb-test
+spec:
+  storageClassName: "cinder"
+  accessModes:
+  - ReadWriteMany
+  resources:
+   requests:
+     storage: 1Gi

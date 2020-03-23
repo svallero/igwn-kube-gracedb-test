@@ -1,0 +1,72 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gracedb-test
+  namespace: gracedb-test
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.frontend.passHostHeader: "true"
+    traefik.ingress.kubernetes.io/pass-client-tls-cert: |
+      pem: true
+      infos:
+        notafter: true
+        notbefore: true
+        sans: true
+        subject:
+          country: true
+          province: true
+          locality: true
+          organization: true
+          commonname: true
+          serialnumber: true
+          domaincomponent: true
+        issuer:
+          country: true
+          province: true
+          locality: true
+          organization: true
+          commonname: true
+          serialnumber: true
+          domaincomponent: true
+spec:
+  rules:
+    - host: vm-131-154-161-31.cr.cnaf.infn.it
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: gracedb-test
+            servicePort: http
+        - path: /DiscoveryService
+          backend:
+            #serviceName: shibd-test
+            serviceName: gracedb-test
+            servicePort: http
+        #- path: /Shibboleth.sso
+        #  backend:
+        #    serviceName: shibd-test
+        #    servicePort: http
+        - path: /login
+          backend:
+            #serviceName: shibd-test
+            serviceName: gracedb-test
+            servicePort: http
+        - path: /post-login
+          backend:
+            #serviceName: shibd-test
+            serviceName: gracedb-test
+            servicePort: http
+        #- path: /shibboleth-ds
+        #  backend:
+        #    serviceName: shibd-test
+        #    servicePort: http
+        - path: /admin_docs
+          backend:
+            #serviceName: shibd-test
+            serviceName: gracedb-test
+            servicePort: http
+            servicePort: 80
+  tls:
+   #- secretName: traefik-gracedb-test-tls-cert
+   - secretName: letsencrypt-cert-tls 

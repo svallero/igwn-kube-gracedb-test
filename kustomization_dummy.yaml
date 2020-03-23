@@ -4,7 +4,9 @@ secretGenerator:
 - name: gracedb-test-secrets
   namespace: gracedb-test
   literals:
-  - db-password=MyPu123
-  - db-root-password=MyPr123
+  - db-password=<changeme>
+  - db-root-password=<changeme>
+  - dj-secret-key=<changeme>
+  - lvalert-password=<changeme>
 generatorOptions:
   disableNameSuffixHash: true
