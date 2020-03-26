@@ -13,5 +13,8 @@ spec:
   - name: p1
     port: 8080
     targetPort: 8080
+  - name: p2
+    port: 8001
+    targetPort: 8001
   selector:
     app: gracedb-test
