@@ -30,7 +30,7 @@ spec:
             - name: AWS_SES_REGION_ENDPOINT                        
               value: dummy                                         
             - name: DJANGO_DB_HOST                                 
-              value: mysql.gracedb-test.svc.cluster.local          
+              value: mysql-gdb-test.gracedb-test.svc.cluster.local          
             - name: DJANGO_DB_NAME                                 
               value: gracedb                                       
             - name: DJANGO_DB_PASSWORD                             

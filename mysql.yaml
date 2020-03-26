@@ -1,34 +1,34 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: mysql-gdb-test
   namespace: gracedb-test
 spec:
   ports:
   - port: 3306
   selector:
-    app: mysql
+    app: mysql-gdb-test
   clusterIP: None
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql
+  name: mysql-gdb-test
   namespace: gracedb-test
 spec:
   selector:
     matchLabels:
-      app: mysql
+      app: mysql-gdb-test
   strategy:
     type: Recreate
   template:                                                       
     metadata:                                                     
       labels:                                                     
-        app: mysql                                                
+        app: mysql-gdb-test                                                
     spec:                                                         
       containers:                                                 
       - image: mariadb:10.5.1                                     
-        name: mysql                                               
+        name: mysql-gdb-test                                               
         env:                                                      
         - name: MYSQL_ROOT_PASSWORD                               
           valueFrom:
@@ -46,7 +46,7 @@ spec:
           value: gracedb                                          
         ports:                    
         - containerPort: 3306                                     
-          name: mysql                                             
+          name: mysql-gdb-test                                             
         volumeMounts:                                             
         - name: mysql-persistent-storage                          
           mountPath: /var/lib/mysql                               
