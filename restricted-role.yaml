@@ -1,0 +1,9 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gracedb-role-restricted
+  namespace: gracedb-test
+rules:                                                             
+  - apiGroups: [""]                                                
+    resources: ["namespaces", "events", "pods", "pods/log"]        
+    verbs: ["get", "list"]                                         
