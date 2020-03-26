@@ -5,6 +5,7 @@ metadata:
   name: gracedb-test
   namespace: gracedb-test
   annotations:
+    certmanager.k8s.io/issuer: letsencrypt-production
     kubernetes.io/ingress.class: traefik
     traefik.frontend.passHostHeader: "true"
     traefik.ingress.kubernetes.io/pass-client-tls-cert: |
@@ -34,6 +35,10 @@ spec:
     - host: vm-131-154-161-31.cr.cnaf.infn.it
       http:
         paths:
+        - path: /api
+          backend:
+            serviceName: gracedb-test
+            servicePort: http
         - path: /
           backend:
             serviceName: gracedb-test
@@ -68,5 +73,6 @@ spec:
             servicePort: http
             servicePort: 80
   tls:
-   #- secretName: traefik-gracedb-test-tls-cert
-   - secretName: letsencrypt-cert-tls 
+  - hosts:
+    - vm-131-154-161-31.cr.cnaf.infn.it
+    secretName: selfsigned-cert-tls  
