@@ -9,8 +9,11 @@ spec:
     storage: 20Gi
   accessModes:
     - ReadWriteMany
+  claimRef:
+    namespace: gracedb-test
+    name: gracedb-test-mysql-pvc
   hostPath:
-    path: "/mnt/data"
+    path: "/mnt/mysql-gdb-test"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
