@@ -5,7 +5,7 @@ metadata:
   name: gracedb-test
   namespace: gracedb-test
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: gracedb-test
@@ -17,10 +17,15 @@ spec:
       hostname: gracedb-test
       containers:
         - name: gracedb-test
-          image: containers.ligo.org/lscsoft/gracedb:docker
+          #image: containers.ligo.org/lscsoft/gracedb:docker
+          image: containers.ligo.org/lscsoft/gracedb:gracedb-2.9.0-1
           #image: svallero/gracedb   
           imagePullPolicy: Always                                   
           env:                                                     
+            - name: ENABLE_SHIBD
+              value: "false"
+            - name: ENABLE_OVERSEER
+              value: "true"
             - name: AWS_SES_ACCESS_KEY_ID                          
               value: dummy                                         
             - name: AWS_SES_SECRET_ACCESS_KEY                      
@@ -28,6 +33,8 @@ spec:
             - name: AWS_SES_REGION_NAME 
               value: dummy                                         
             - name: AWS_SES_REGION_ENDPOINT                        
+              value: dummy                                         
+            - name: DJANGO_AWS_ELASTICACHE_ADDR                        
               value: dummy                                         
             - name: DJANGO_DB_HOST                                 
               value: mysql-gdb-test.gracedb-test.svc.cluster.local          
@@ -53,7 +60,8 @@ spec:
                   name: gracedb-test-secrets                           
                   key: dj-secret-key 
             - name: DJANGO_SETTINGS_MODULE                         
-              value: config.settings.container.cnaf_test
+              #value: config.settings.container.cnaf_test
+              value: config.settings.container.test
             - name: DJANGO_TWILIO_ACCOUNT_SID                      
               value: dummy
             - name: DJANGO_TWILIO_AUTH_TOKEN                       
@@ -78,6 +86,9 @@ spec:
             - name: SMTP_PASSWORD                                  
               value: dummy   
           volumeMounts:                                            
+            - name: lvalert-no-certificate
+              mountPath: /usr/local/lib/python3.5/dist-packages/ligo/lvalert/__init__.py
+              subPath: __init__.py
             - name: django-settings                                
               mountPath: /app/gracedb_project/config/settings/container/cnaf_test.py
               subPath: cnaf_test.py                                
@@ -104,7 +115,8 @@ spec:
             periodSeconds: 5         
       initContainers:                                              
         - name: gracedb-init                                       
-          image: containers.ligo.org/lscsoft/gracedb:docker
+          #image: containers.ligo.org/lscsoft/gracedb:docker
+          image: containers.ligo.org/lscsoft/gracedb:gracedb-2.9.0-1
           imagePullPolicy: Always
           command:                                                 
             - sh                                                   
@@ -120,6 +132,9 @@ spec:
       #nodeSelector:                                                
       #    kubernetes.io/hostname: yoga-priv                        
       volumes:                                                     
+        - name: lvalert-no-certificate                                           
+          configMap:                                               
+              name: lvalert-no-certificate
         - name: django-settings                                    
           configMap:                                               
               name: django-settings-cnaf-test                      
