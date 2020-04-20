@@ -32,3 +32,33 @@ Then create the replicated database with the script:
 ```
 ./mariadb-galera/create-cluster.sh
 ```
+
+## 4 - gracedb-volume-ha.yaml
+Create a persistent volume for the folder */app/db_data*. You might need to edit this file.
+
+## 5 - deployment-ha.yaml
+This creates the actual deployment.
+
+## 6 - Initialize the database (manual steps)
+This is required only the first time, when the database needs to be initialized. 
+Get the list of pods belonging to the deployment:
+```
+kubectl get pods -n gracedb-test
+...
+gracedb-test-ha-xxx         1/1     Running   0          13d
+gracedb-test-ha-yyy         1/1     Running   0          13d
+gracedb-test-ha-zzz         1/1     Running   0          13d
+...
+```
+
+Then login to one of the replicas:
+```
+kubectl exec -it gracedb-test-ha-xxx bash -n gracedb-test
+```
+And execute the following commands:
+```
+python3 manage.py migrate
+python3 manage.py createcachetable
+python3 manage.py createsuperuser 
+```
+(you need to choose a username and password for the admin user).
