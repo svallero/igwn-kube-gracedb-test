@@ -66,3 +66,8 @@ python3 manage.py createsuperuser
 
 ## 7 - service-ha.yaml
 Allow the Pods to be reached from the outside. You might need to edit this file if you want to use a different service type. 
+
+## 8 - Traefik Ingress and certificates
+**TODO** once the network configuration is finalized.
+
+## A note on local user login
