@@ -7,6 +7,7 @@ Test deployment of GraceDB on Kubernetes cluster on premises. It was developed f
 
 **TODO:** 
 - external IP provisioning and certificate handling
+- once everything is setup, you neeed to login to the admin console and set the *Sites* variable to the correct value. This step should be automated.
 
 Apply the following manifests with:
 
@@ -62,3 +63,6 @@ python3 manage.py createcachetable
 python3 manage.py createsuperuser 
 ```
 (you need to choose a username and password for the admin user).
+
+## 7 - service-ha.yaml
+Allow the Pods to be reached from the outside. You might need to edit this file if you want to use a different service type. 
