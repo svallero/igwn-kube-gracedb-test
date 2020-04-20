@@ -11,4 +11,11 @@ Apply the following manifests with:
 ## 1 - namespace.yaml
 Group all resources under the same namespace.
 
+## 2 - kustomization.yaml
+Insert your secrets here. The kustomization file is applied with:
+
+```kubectl apply -k .```
+
+The file name must be *kustomization.yaml*.
+
 
