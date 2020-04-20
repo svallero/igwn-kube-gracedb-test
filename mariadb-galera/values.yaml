@@ -1,0 +1,26 @@
+#image:
+#  tag: 10.5.1
+rootUser:
+  password: MyPr123
+  forcePassword: false
+db:
+  user: gracedb
+  password: MyPu123 
+  name: gracedb
+persistence:
+  enabled: true
+  size: 20Gi
+service:
+  type: NodePort
+  #clusterIP: None
+securityContext:
+  runAsUser: 0
+  fsGroup: 0
+replicaCount: 3
+#livenessProbe:
+#  enabled: false
+#readinessProbe: 
+#  enabed: false
+#initdbScriptsConfigMap: cleanup-pv
+ 
+  

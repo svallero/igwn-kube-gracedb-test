@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: galera-pv-0
+spec:
+  storageClassName: "cinder"
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/db-galera-test-0"
+  claimRef:
+    namespace: gracedb-test
+    name: data-gracedb-test-mariadb-galera-0 
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: galera-pv-1
+spec:
+  storageClassName: "cinder"
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/db-galera-test-1"
+  claimRef:
+    namespace: gracedb-test
+    name: data-gracedb-test-mariadb-galera-1 
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: galera-pv-2
+spec:
+  storageClassName: "cinder"
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/db-galera-test-2"
+  claimRef:
+    namespace: gracedb-test
+    name: data-gracedb-test-mariadb-galera-2 
