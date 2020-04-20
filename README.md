@@ -71,3 +71,11 @@ Allow the Pods to be reached from the outside. You might need to edit this file 
 **TODO** once the network configuration is finalized.
 
 ## A note on local user login
+Latest releases of GraceDB do not support local user login. To enable this feature for testing purposes, you should use an older release of the project. You can configure a separate deployment running the old release by applying the following manifests:
+```
+deployment-login-ha.yaml
+service-login-ha.yaml
+```
+Then, you should route only the path */login* to this deployment. To do so, please take a look at the file: *ingress.yaml*.
+
+Finally, you can login to the admin console, create the local users and assign them the desired permissions. 
