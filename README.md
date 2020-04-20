@@ -1,6 +1,10 @@
 # igwn-kube-gracedb-test
 Test deployment of GraceDB on Kubernetes cluster on premises. It was developed for a Kubernetes cluster managed by Rancher on OpenStack. Some details might change for different Cloud providers. For instance, you might need to adjust the StorageClass for persistent volumes. 
 
+**Prerequisites:**
+- [Helm (and Tiller if required by the Helm version)](https://helm.sh/docs/intro/install/) 
+- [Traefik controller](https://docs.traefik.io/v1.7/user-guide/kubernetes/) 
+
 **TODO:** 
 - external IP provisioning and certificate handling
 
