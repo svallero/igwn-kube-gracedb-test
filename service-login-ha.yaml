@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gracedb-test-login-ha
+  namespace: gracedb-test
+spec:
+  #type: NodePort
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  - name: p1
+    port: 8080
+    targetPort: 8080
+  - name: p2
+    port: 8001
+    targetPort: 8001
+  selector:
+    app: gracedb-test-login-ha

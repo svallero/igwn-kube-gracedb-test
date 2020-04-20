@@ -37,16 +37,20 @@ spec:
         paths:
         - path: /api
           backend:
-            serviceName: gracedb-test
+            #serviceName: gracedb-test-login
+            #serviceName: gracedb-test
+            serviceName: gracedb-test-ha
             servicePort: http
         - path: /
           backend:
-            serviceName: gracedb-test
+            #serviceName: gracedb-test
+            serviceName: gracedb-test-ha
             servicePort: http
         - path: /DiscoveryService
           backend:
             #serviceName: shibd-test
-            serviceName: gracedb-test
+            #serviceName: gracedb-test
+            serviceName: gracedb-test-ha
             servicePort: http
         #- path: /Shibboleth.sso
         #  backend:
@@ -55,12 +59,15 @@ spec:
         - path: /login
           backend:
             #serviceName: shibd-test
-            serviceName: gracedb-test
+            #serviceName: gracedb-test
+            #serviceName: gracedb-test-login
+            serviceName: gracedb-test-login-ha
             servicePort: http
         - path: /post-login
           backend:
             #serviceName: shibd-test
-            serviceName: gracedb-test
+            #serviceName: gracedb-test
+            serviceName: gracedb-test-ha
             servicePort: http
         #- path: /shibboleth-ds
         #  backend:
@@ -69,7 +76,8 @@ spec:
         - path: /admin_docs
           backend:
             #serviceName: shibd-test
-            serviceName: gracedb-test
+            #serviceName: gracedb-test-login
+            serviceName: gracedb-test-ha
             servicePort: http
             servicePort: 80
   tls:
