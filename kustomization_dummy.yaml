@@ -8,5 +8,10 @@ secretGenerator:
   - db-root-password=<changeme>
   - dj-secret-key=<changeme>
   - lvalert-password=<changeme>
+  - mariadb-galera-mariabackup-password=<changeme>
+  # should be equal to db-password and db-root-password
+  # (TODO: use only one set of variables)
+  - mariadb-password=<changeme>
+  - mariadb-root-password=<changeme>
 generatorOptions:
   disableNameSuffixHash: true

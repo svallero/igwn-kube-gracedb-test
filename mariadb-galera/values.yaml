@@ -1,11 +1,12 @@
 #image:
 #  tag: 10.5.1
+existingSecret: gracedb-test-secrets
 rootUser:
-  password: MyPr123
+  #password: dummy 
   forcePassword: false
 db:
   user: gracedb
-  password: MyPu123 
+  #password: dummy
   name: gracedb
 persistence:
   enabled: true
