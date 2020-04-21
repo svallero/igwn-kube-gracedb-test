@@ -29,6 +29,11 @@ spec:
       containers:                                                 
       - image: mariadb:10.5.1                                     
         name: mysql-gdb-test                                               
+        #command: 
+        #  - sh
+        #  - -c
+        #  - |
+        #    rm -rf /var/lib/mysql/*
         env:                                                      
         - name: MYSQL_ROOT_PASSWORD                               
           valueFrom:

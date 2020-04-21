@@ -5,7 +5,7 @@ metadata:
   name: gracedb-test
   namespace: gracedb-test
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: gracedb-test
@@ -92,6 +92,9 @@ spec:
             - name: django-settings                                
               mountPath: /app/gracedb_project/config/settings/container/cnaf_test.py
               subPath: cnaf_test.py                                
+            - name: django-update-site                                
+              mountPath: /app/gracedb_project/gracedb/migrations/sites/0002_update_site.py
+              subPath: 0002_update_site.py
             - name: cinder-gracedb                              
               mountPath: "/app/db_data"            
           livenessProbe:
@@ -138,6 +141,9 @@ spec:
         - name: django-settings                                    
           configMap:                                               
               name: django-settings-cnaf-test                      
+        - name: django-update-site                                    
+          configMap:                                               
+              name: django-update-site                      
         - name: cinder-gracedb                                  
           persistentVolumeClaim:                                   
             claimName: cinder-gracedb-test
