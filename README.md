@@ -7,7 +7,6 @@ Test deployment of GraceDB on Kubernetes cluster on premises. It was developed f
 
 **TODO:** 
 - external IP provisioning and certificate handling
-- once everything is setup, you neeed to login to the admin console and set the *Sites* variable to the correct value. This step should be automated.
 
 Apply the following manifests with:
 
