@@ -37,10 +37,18 @@ Then create the replicated database with the script:
 ## 4 - gracedb-volume-ha.yaml
 Create a persistent volume for the folder */app/db_data*. You might need to edit this file.
 
-## 5 - deployment-ha.yaml
+## 5 - Generate ConfigMaps
+Generate some useful ConfigMap:
+```
+./generate-configmap.sh 
+./generate-configmap-hack.sh 
+```
+The latest script will not be needed once the certificates are in place for Lvalert. 
+
+## 6 - deployment-ha.yaml
 This creates the actual deployment.
 
-## 6 - Initialize the database (manual steps)
+## 7 - Initialize the database (manual steps)
 This is required only the first time, when the database needs to be initialized. 
 Get the list of pods belonging to the deployment:
 ```
@@ -64,10 +72,10 @@ python3 manage.py createsuperuser
 ```
 (you need to choose a username and password for the admin user).
 
-## 7 - service-ha.yaml
+## 8 - service-ha.yaml
 Allow the Pods to be reached from the outside. You might need to edit this file if you want to use a different service type. 
 
-## 8 - Traefik Ingress and certificates
+## 9 - Traefik Ingress and certificates
 **TODO** once the network configuration is finalized.
 
 ## A note on local user login
