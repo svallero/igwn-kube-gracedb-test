@@ -1,0 +1,107 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-db
+  namespace: gracedb-test
+spec:
+  template:
+    spec:
+      containers:
+        - name: gracedb-test
+          #image: containers.ligo.org/lscsoft/gracedb:docker
+          image: containers.ligo.org/lscsoft/gracedb:gracedb-2.9.0-1
+          #image: svallero/gracedb   
+          imagePullPolicy: Never                                  
+          command: 
+            - sh                                                   
+            - -c                                                   
+            - | 
+              /usr/bin/python3 manage.py migrate && 
+              /usr/bin/python3 manage.py createcachetable
+          env:                                                     
+            - name: ENABLE_SHIBD
+              value: "false"
+            - name: ENABLE_OVERSEER
+              value: "false"
+            - name: AWS_SES_ACCESS_KEY_ID                          
+              value: dummy                                         
+            - name: AWS_SES_SECRET_ACCESS_KEY                      
+              value: dummy                                         
+            - name: AWS_SES_REGION_NAME 
+              value: dummy                                         
+            - name: AWS_SES_REGION_ENDPOINT                        
+              value: dummy                                         
+            - name: DJANGO_AWS_ELASTICACHE_ADDR                        
+              value: dummy                                         
+            - name: DJANGO_DB_HOST                                 
+              #value: mysql-gdb-test.gracedb-test.svc.cluster.local          
+              value: gracedb-test-mariadb-galera.gracedb-test.svc.cluster.local
+            - name: DJANGO_DB_NAME                                 
+              value: gracedb                                       
+            - name: DJANGO_DB_PASSWORD                             
+              valueFrom:                                          
+                secretKeyRef:                                     
+                  name: gracedb-test-secrets                           
+                  key: db-password 
+            - name: DJANGO_DB_USER                                 
+              value: gracedb  
+            - name: DJANGO_ALERT_EMAIL_FROM                        
+              value: gracedb-test@gravitationalwave.services       
+            - name: DJANGO_PRIMARY_FQDN                  
+              value: gracedb-test                                  
+            - name:  DJANGO_ALLOWED_HOSTS
+              #value: 131.154.161.31                              
+              value: vm-131-154-161-31.cr.cnaf.infn.it                            
+            - name: DJANGO_SECRET_KEY                              
+              valueFrom:                                          
+                secretKeyRef:                                     
+                  name: gracedb-test-secrets                           
+                  key: dj-secret-key 
+            - name: DJANGO_SETTINGS_MODULE                         
+              #value: config.settings.container.cnaf_test
+              value: config.settings.container.test
+            - name: DJANGO_TWILIO_ACCOUNT_SID                      
+              value: dummy
+            - name: DJANGO_TWILIO_AUTH_TOKEN                       
+              value: dummy
+            - name: LVALERT_SERVER                                 
+              value: lvalert.lvalert                             
+            - name: LVALERT_USER                                   
+              value: gracedb                                       
+            - name: LVALERT_PASSWORD                               
+              valueFrom:                                          
+                secretKeyRef:                                     
+                  name: gracedb-test-secrets                           
+                  key: lvalert-password
+            - name: LVALERT_OVERSEER_PORT                          
+              value: "8001"                                        
+            - name: SMTP_HOST    
+              #value: smtp.gmail.com                                
+              value: dummy                                
+            - name: SMTP_USERNAME                                  
+              #value: vallerosara@gmail.com
+              value: dummy
+            - name: SMTP_PASSWORD                                  
+              value: dummy   
+          volumeMounts:                                            
+            - name: django-settings                                
+              mountPath: /app/gracedb_project/config/settings/container/cnaf_test.py
+              subPath: cnaf_test.py                                
+            - name: django-update-site                                
+              mountPath: /app/gracedb_project/gracedb/migrations/sites/0002_update_site.py
+              subPath: 0002_update_site.py
+            - name: cinder-gracedb                              
+              mountPath: "/app/db_data"            
+      volumes:                                                     
+        - name: django-settings                                    
+          configMap:                                               
+              name: django-settings-cnaf-test                      
+        - name: django-update-site                                    
+          configMap:                                               
+              name: django-update-site                      
+        - name: cinder-gracedb                                  
+          persistentVolumeClaim:                                   
+            claimName: cinder-gracedb-test
+      restartPolicy: Never                                         
+  backoffLimit: 4
