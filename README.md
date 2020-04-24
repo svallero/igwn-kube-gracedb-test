@@ -47,8 +47,11 @@ The latest script will not be needed once the certificates are in place for Lval
 ## 6 - deployment-ha.yaml
 This creates the actual deployment.
 
-## 7 - Initialize the database (manual steps)
-This is required only the first time, when the database needs to be initialized. 
+## 7 - init_db.yaml
+This is required only the first time, when the database needs to be initialized.
+
+## 8 - Create the admin user (manual step)
+This is required only the first time, after database initializaion. 
 Get the list of pods belonging to the deployment:
 ```
 kubectl get pods -n gracedb-test
@@ -63,18 +66,16 @@ Then login to one of the replicas:
 ```
 kubectl exec -it gracedb-test-ha-xxx bash -n gracedb-test
 ```
-And execute the following commands:
+And execute the following command:
 ```
-python3 manage.py migrate
-python3 manage.py createcachetable
 python3 manage.py createsuperuser 
 ```
 (you need to choose a username and password for the admin user).
 
-## 8 - service-ha.yaml
+## 9 - service-ha.yaml
 Allow the Pods to be reached from the outside. You might need to edit this file if you want to use a different service type. 
 
-## 9 - Traefik Ingress and certificates
+## 10 - Traefik Ingress and certificates
 **TODO** once the network configuration is finalized.
 
 ## A note on local user login
